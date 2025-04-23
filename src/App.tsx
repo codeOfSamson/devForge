@@ -18,6 +18,7 @@ export default function App() {
   const [gap, setGap] = useState("gap-4")
   const [padding, setPadding] = useState("p-6")
   const [layoutType, setLayoutType] = useState("flex")
+  const [goCrazy, setGoCrazy] = useState(false)
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -39,6 +40,8 @@ export default function App() {
         onGapChange={setGap}
         onPaddingChange={setPadding}
         onAddBox={() => setBoxes((prev) => [...prev, createBox()])}
+        onGoCrazy={() => setGoCrazy(!goCrazy)}
+        goCrazy={goCrazy}
 
       />
 
@@ -51,6 +54,7 @@ export default function App() {
           gap={gap}
           padding={padding}
           boxes={boxes}
+          goCrazy={goCrazy}
         />
 
   

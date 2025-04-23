@@ -14,6 +14,8 @@ type Props = {
   onGapChange: (val: string) => void
   onPaddingChange: (val: string) => void
   onAddBox: () => void
+  onGoCrazy: () => void
+  goCrazy: boolean
 }
 
 
@@ -33,11 +35,16 @@ export default function Controls({
   onGapChange,
   onPaddingChange,
   onAddBox,
+  onGoCrazy,
+  goCrazy
 }: Props) {
   return (
     <div className="mb-4 flex flex-wrap gap-4 items-center">
       <button onClick={onAddBox} className="bg-indigo-600 text-white px-4 py-2 rounded">
         Add Box
+      </button>
+      <button onClick={onGoCrazy} className="bg-yellow-600 text-white px-4 py-2 rounded">
+       {!goCrazy? 'Go Crazy!' : 'Please Stop!' } 
       </button>
       <select value={layoutType} onChange={(e) => onLayoutTypeChange(e.target.value)}>
   <option value="flex">Flex</option>

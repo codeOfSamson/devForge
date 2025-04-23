@@ -1,6 +1,6 @@
 type Task = {
     id: string;
-    status: "idle" | "loading" | "success" | "error" | "cancelled";
+    status: "idle" | "loading" | "success" | "error" | "cancelled" | "canceling";
   };
   
   type Props = {
@@ -13,6 +13,7 @@ type Task = {
     success: "bg-green-500",
     error: "bg-red-500",
     cancelled: "bg-gray-500",
+    canceling: "bg-red-200",
     idle: "bg-gray-300",
   };
   

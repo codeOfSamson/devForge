@@ -2,6 +2,8 @@ type BoxProps = {
     id: number
     color: string
     size: string
+    animation?: string 
+
   }
   
   export default function Box({ id, color, size }: BoxProps) {

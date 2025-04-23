@@ -4,7 +4,7 @@ import LogPanel from "./LogPanel";
 
 type Task = {
   id: string;
-  status: "idle" | "loading" | "success" | "error" | "cancelled";
+  status: "idle" | "loading" | "success" | "error" | "cancelled" | "canceling";
   controller: AbortController;
 };
 
@@ -33,18 +33,29 @@ export default function AsyncPanel() {
     // Simulate async API call
     fetch("https://jsonplaceholder.typicode.com/todos/1", {
       signal: controller.signal,
+    }).then((res) => {
+      if (!res.ok) throw new Error("Request failed");
+      return res.json();
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Request failed");
-        return res.json();
+      .then(async () => {
+        const time = 4000 + Math.random() * 4000;
+        const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+        addLog(`Task ${id} will take ${(time / 1000).toFixed(1)} seconds`);
+        if (controller.signal.aborted) throw new Error("Aborted before delay");
+
+        await delay(time);  
+        if (controller.signal.aborted) throw new Error("Aborted during delay");
+  
       })
       .then(() => {
+        if (!controller.signal.aborted) {
         setTasks((prev) =>
           prev.map((task) =>
             task.id === id ? { ...task, status: "success" } : task
           )
         );
         addLog(`Task ${id} completed successfully`);
+      }
       })
       .catch((err) => {
         if (controller.signal.aborted) {
@@ -69,7 +80,13 @@ export default function AsyncPanel() {
     const task = tasks.find((t) => t.id === id);
     if (task && task.status === "loading") {
       task.controller.abort();
+           setTasks((prev) =>
+            prev.map((task) =>
+              task.id === id ? { ...task, status: "canceling" } : task
+            )
+          );
     }
+
   };
 
   return (
