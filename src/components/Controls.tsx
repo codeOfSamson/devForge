@@ -6,7 +6,7 @@ type Props = {
   wrap: string
   gap: string
   padding: string
-  onLayoutTypeChange: (val: "flex" | "grid") => void
+  onLayoutTypeChange: (val: string) => void
   onDirectionChange: (val: string) => void
   onJustifyChange: (val: string) => void
   onAlignChange: (val: string) => void
@@ -39,7 +39,7 @@ export default function Controls({
       <button onClick={onAddBox} className="bg-indigo-600 text-white px-4 py-2 rounded">
         Add Box
       </button>
-      <select value={layoutType} onChange={(e) => onLayoutTypeChange(e.target.value as "flex" | "grid")}>
+      <select value={layoutType} onChange={(e) => onLayoutTypeChange(e.target.value)}>
   <option value="flex">Flex</option>
   <option value="grid">Grid</option>
 </select>

@@ -5,7 +5,7 @@ type Box = {
   }
   
 type Props = {
-    layoutType: "flex" | "grid"
+    layoutType: string
     direction: string
     justify: string
     align: string
@@ -14,7 +14,8 @@ type Props = {
     padding: string
     boxes: Box[]
   }
-  
+
+
   export default function Preview({
     layoutType,
     direction,
@@ -25,18 +26,29 @@ type Props = {
     padding,
     boxes,
   }: Props) {
+
+
     const layoutClass =
-      layoutType === "flex"
-        ? `flex flex-${direction} flex-${wrap} justify-${justify} items-${align}`
-        : `grid grid-cols-3`
-  
+    layoutType === "flex"
+      ? `flex ${direction} ${wrap} ${justify} ${align}`
+      : `grid grid-cols-4`
+    
     return (
       <div className={`border rounded-md min-h-[200px] ${padding} ${gap} ${layoutClass}`}>
-        {[...Array(boxes)].map((_, i) => (
-          <div key={i} className="bg-indigo-400 text-white p-4 rounded shadow">
-            Box {i + 1}
-          </div>
-        ))}
+      {boxes.map((box, i) => (
+        <div
+          key={box.id}
+          className={`${box.color} ${box.size}  text-white p-4 rounded shadow`}
+          style={{
+            width: box.size,
+            height: box.size,
+            backgroundColor: box.color,
+          }}
+            >
+             Box {i + 1}
+       </div>
+))}
+
       </div>
     )
   }

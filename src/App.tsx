@@ -19,40 +19,39 @@ export default function App() {
   const [padding, setPadding] = useState("p-6")
   const [layoutType, setLayoutType] = useState("flex")
 
-
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-4">🎨 Flexbox Playground</h1>
 
       <Controls
-  layoutType={layoutType}
-  direction={flexDir}
-  justify={justify}
-  align={align}
-  wrap={wrap}
-  gap={gap}
-  padding={padding}
-  onLayoutTypeChange={setLayoutType}
-  onDirectionChange={setFlexDir}
-  onJustifyChange={setJustify}
-  onAlignChange={setAlign}
-  onWrapChange={setWrap}
-  onGapChange={setGap}
-  onPaddingChange={setPadding}
-  onAddBox={() => setBoxes((prev) => [...prev, createBox()])}
+        layoutType={layoutType}
+        direction={flexDir}
+        justify={justify}
+        align={align}
+        wrap={wrap}
+        gap={gap}
+        padding={padding}
+        onLayoutTypeChange={setLayoutType}
+        onDirectionChange={setFlexDir}
+        onJustifyChange={setJustify}
+        onAlignChange={setAlign}
+        onWrapChange={setWrap}
+        onGapChange={setGap}
+        onPaddingChange={setPadding}
+        onAddBox={() => setBoxes((prev) => [...prev, createBox()])}
 
-/>
+      />
 
-<Preview
-  layoutType="flex"
-  direction={flexDir}
-  justify={justify}
-  align={align}
-  wrap={wrap}
-  gap={gap}
-  padding={padding}
-  boxes={boxes}
-/>
+        <Preview
+          layoutType={layoutType}
+          direction={flexDir}
+          justify={justify}
+          align={align}
+          wrap={wrap}
+          gap={gap}
+          padding={padding}
+          boxes={boxes}
+        />
 
   
       <div>
