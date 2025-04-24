@@ -21,6 +21,10 @@ type Props = {
     "animate-bounce",
     "animate-ping",
     "animate-spin",
+    "animate-ping",
+    "animate-wiggle",
+    "animate-jiggle",
+   // "animate-refine-slide"
   ];
 
   
@@ -47,7 +51,6 @@ type Props = {
 
     const animatedBoxes = goCrazy ? applyRandomAnimations(boxes) : boxes;
 
-    console.log(animatedBoxes)
 
 
     const layoutClass =
