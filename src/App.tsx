@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Box from './components/Box'
 import Controls from './components/Controls'
 import { createBox } from './components/BoxFactory'
 import PatternInfoPanel from './components/PatternInfoPanel';
@@ -8,6 +7,7 @@ import StrategyPatternPanel from './components/StrategyPatternPanel';
 import AsyncPanel from './components/AsyncPanel';
 import Preview from './components/Preview';
 import CommandPatternPanel from './components/CommandPatternPanel';
+import AdapterPatternPanel from './components/AdapterPatternPanel';
 
 const TABS = [
   { label: "Factory", component: <FactoryPatternPanel /> },
@@ -15,7 +15,7 @@ const TABS = [
   { label: "Command", component: <CommandPatternPanel /> },
   { label: "Observer", component: <PatternInfoPanel /> },
   { label: "Async", component: <AsyncPanel /> },
-  
+  { label: "Adapter", component: <AdapterPatternPanel /> },
 ];
 
 export default function App() {

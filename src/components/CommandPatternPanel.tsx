@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-// Command interface
 interface Command {
   execute(): void;
   undo(): void;
@@ -136,7 +135,6 @@ export default function CommandPatternPanel() {
   const [input, setInput] = useState("");
   const [_, setForceUpdate] = useState(0); // for re-rendering after undo
   const [invoker] = useState(() => new CommandInvoker());
-
   // OOP receiver instance
   const receiver = new ItemList(items, setItems);
 
@@ -165,6 +163,8 @@ export default function CommandPatternPanel() {
     invoker.undo();
     setForceUpdate((n) => n + 1);
   };
+
+  const history = invoker.getHistory();
 
   return (
     <div className="p-6">
@@ -213,10 +213,13 @@ export default function CommandPatternPanel() {
       <div className="mt-6">
         <h3 className="font-semibold mb-2">Command History</h3>
         <ol className="list-decimal list-inside text-sm text-gray-600">
-          {invoker.getHistory().map((cmd, idx) => (
-            <li key={idx}>{cmd.description}</li>
-          ))}
-          {invoker.getHistory().length === 0 && <li>No commands executed yet.</li>}
+          {history.length === 0 ? (
+            <li>No commands executed yet.</li>
+          ) : (
+            history.map((cmd, idx) => (
+              <li key={idx}>{cmd.description}</li>
+            ))
+          )}
         </ol>
       </div>
     </div>
