@@ -2,6 +2,7 @@ type Box = {
     id: number
     color: string
     size: string
+    animation?: string
   }
   
 type Props = {
@@ -17,14 +18,17 @@ type Props = {
   }
 
   const builtInAnimations = [
-    "animate-pulse",
-    "animate-bounce",
-    "animate-ping",
-    "animate-spin",
-    "animate-ping",
-    "animate-wiggle",
-    "animate-jiggle",
-   // "animate-refine-slide"
+    "pulse",
+    "bounce",
+    "ping",
+    "spin",
+    "wiggle",
+    "float",
+    "bounce-soft",
+    "pulse-glow",
+    "slide-in-bottom",
+    "slide-in-left",
+   
   ];
 
   
@@ -52,7 +56,6 @@ type Props = {
     const animatedBoxes = goCrazy ? applyRandomAnimations(boxes) : boxes;
 
 
-
     const layoutClass =
     layoutType === "flex"
       ? `flex ${direction} ${wrap} ${justify} ${align}`
@@ -61,19 +64,21 @@ type Props = {
     
     return (
       <div className={`border rounded-md min-h-[200px] ${padding} ${gap} ${layoutClass}`}>
-      {animatedBoxes.map((box, i) => (
-        <div
-          key={box.id}
-          className={`${box.color} ${box.size} ${box.animation}  text-white p-4 rounded shadow`}
-          style={{
-            width: box.size,
-            height: box.size,
-            backgroundColor: box.color,
-          }}
-            >
-             Box {i + 1}
-       </div>
-))}
+      {animatedBoxes.map((box, i) => {
+        return (
+          <div
+            key={box.id}
+            className={`${box.color} ${box.size} ${box.animation ? `animate-${box.animation}` : ''} text-white p-4 rounded shadow`}
+            style={{
+              width: box.size,
+              height: box.size,
+              backgroundColor: box.color,
+            }}
+          >
+            Box {i + 1}
+          </div>
+        )
+      })}
 
       </div>
     )
