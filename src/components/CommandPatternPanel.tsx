@@ -8,13 +8,10 @@ interface Command {
 
 // Receiver: manages the list
 class ItemList {
-  private _items: string[];
-  setItems: React.Dispatch<React.SetStateAction<string[]>>;
-
-  constructor(items: string[], setItems: React.Dispatch<React.SetStateAction<string[]>>) {
-    this._items = items;
-    this.setItems = setItems;
-  }
+  constructor(
+    private _items: string[],
+    public setItems: React.Dispatch<React.SetStateAction<string[]>>
+  ) {}
 
   get items() {
     return this._items;
@@ -40,14 +37,13 @@ class ItemList {
 
 // Concrete Commands
 class AddCommand implements Command {
-  private receiver: ItemList;
-  private item: string;
   private index: number | null = null;
   description: string;
-
-  constructor(receiver: ItemList, item: string) {
-    this.receiver = receiver;
-    this.item = item;
+  
+  constructor(
+    private receiver: ItemList,
+    private item: string
+  ) {
     this.description = `Add "${item}"`;
   }
 
@@ -64,14 +60,13 @@ class AddCommand implements Command {
 }
 
 class RemoveCommand implements Command {
-  private receiver: ItemList;
-  private index: number;
   private removedItem: string | null = null;
   description: string;
-
-  constructor(receiver: ItemList, index: number) {
-    this.receiver = receiver;
-    this.index = index;
+  
+  constructor(
+    private receiver: ItemList,
+    private index: number
+  ) {
     this.description = `Remove item at index ${index + 1}`;
   }
 
@@ -90,14 +85,12 @@ class RemoveCommand implements Command {
 }
 
 class ClearCommand implements Command {
-  private receiver: ItemList;
   private prevItems: string[] = [];
-  description: string;
-
-  constructor(receiver: ItemList) {
-    this.receiver = receiver;
-    this.description = "Clear all items";
-  }
+  description: string = "Clear all items";
+  
+  constructor(
+    private receiver: ItemList
+  ) {}
 
   execute() {
     this.prevItems = [...this.receiver.items];
@@ -133,9 +126,8 @@ class CommandInvoker {
 export default function CommandPatternPanel() {
   const [items, setItems] = useState<string[]>([]);
   const [input, setInput] = useState("");
-  const [_, setForceUpdate] = useState(0); // for re-rendering after undo
+  const [_, setForceUpdate] = useState(0);
   const [invoker] = useState(() => new CommandInvoker());
-  // OOP receiver instance
   const receiver = new ItemList(items, setItems);
 
   const handleAdd = () => {
