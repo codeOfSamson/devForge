@@ -1,10 +1,10 @@
-import express, { Router } from 'express';
+import express, { Request, Response } from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import User from '../models/User';
-import { Request, Response, NextFunction } from 'express';
 
-const router: Router = express.Router();
+const router = express.Router();
 
 // JWT Authentication
 router.post('/login', async (req: Request, res: Response) => {
@@ -99,6 +99,44 @@ router.get('/github/callback',
 // Protected route example
 router.get('/me', passport.authenticate('jwt', { session: false }), (req: Request, res: Response) => {
   res.json(req.user);
+});
+
+// Guest login route
+router.post('/guest', async (req: Request, res: Response) => {
+  try {
+    // Generate a random guest username
+    const guestUsername = `guest_${Math.random().toString(36).substring(2, 8)}`;
+    
+    // Create a new guest user
+    const guestUser = new User({
+      email: `${guestUsername}@guest.com`,
+      password: await bcrypt.hash(Math.random().toString(36), 10), // Random password
+      name: 'Guest User',
+      isGuest: true
+    });
+
+    await guestUser.save();
+
+    // Create JWT token
+    const token = jwt.sign(
+      { id: guestUser._id, isGuest: true },
+      process.env.JWT_SECRET || 'your-secret-key',
+      { expiresIn: '24h' }
+    );
+
+    res.json({
+      token,
+      user: {
+        id: guestUser._id,
+        email: guestUser.email,
+        name: guestUser.name,
+        isGuest: true
+      }
+    });
+  } catch (error) {
+    console.error('Guest login error:', error);
+    res.status(500).json({ message: 'Error creating guest account' });
+  }
 });
 
 export default router; 

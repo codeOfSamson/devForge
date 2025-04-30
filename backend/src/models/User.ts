@@ -8,6 +8,7 @@ export interface IUser extends Document {
   image?: string;
   googleId?: string;
   githubId?: string;
+  isGuest?: boolean;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
@@ -22,7 +23,7 @@ const UserSchema = new Schema<IUser>({
   password: {
     type: String,
     required: function() {
-      return !this.googleId && !this.githubId;
+      return !this.googleId && !this.githubId && !this.isGuest;
     }
   },
   name: {
@@ -42,6 +43,10 @@ const UserSchema = new Schema<IUser>({
     type: String,
     unique: true,
     sparse: true
+  },
+  isGuest: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
