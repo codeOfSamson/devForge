@@ -187,7 +187,7 @@ export default function PreviewSandbox() {
           </div>
         </div>
 
-        <div className="border rounded p-4 min-h-[400px]" style={containerStyle}>
+        <div className="border rounded p-4 min-h-[400px] bg-gray-300" style={containerStyle}>
           {boxes.map(box => (
             <div
               key={box.id}

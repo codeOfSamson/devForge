@@ -1,29 +1,19 @@
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export function Login() {
-  const { login, guestLogin, error } = useAuth();
-  const navigate = useNavigate();
+export default function Login() {
+  const { login, loginAsGuest, isDemoMode } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/');
-    } catch (error) {
-      // Error is handled by AuthContext
-    }
-  };
-
-  const handleGuestLogin = async () => {
-    try {
-      await guestLogin();
-      navigate('/');
-    } catch (error) {
-      // Error is handled by AuthContext
+    } catch (err) {
+      setError('Login failed. Please try again.');
     }
   };
 
@@ -32,8 +22,13 @@ export function Login() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            {isDemoMode ? 'Demo Mode' : 'Sign in to your account'}
           </h2>
+          {isDemoMode && (
+            <p className="mt-2 text-center text-sm text-gray-600">
+              Running in demo mode. All features are available but data won't be saved.
+            </p>
+          )}
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
@@ -91,31 +86,24 @@ export function Login() {
               <div className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 text-gray-500">Or continue as</span>
+              <span className="px-2 bg-gray-50 text-gray-500">Or</span>
             </div>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6 grid grid-cols-2 gap-3">
             <button
-              onClick={handleGuestLogin}
+              onClick={() => loginAsGuest()}
               className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
-              <span className="sr-only">Continue as Guest</span>
-              <svg className="w-5 h-5 mr-2" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-              </svg>
-              Guest User
+              Continue as Guest
             </button>
-          </div>
-        </div>
-
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
-            <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
-              Create one
+            <Link
+              to="/register"
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+            >
+              Create Account
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </div>
