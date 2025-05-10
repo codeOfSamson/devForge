@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import passport from './config/passport';
 import authRoutes from './routes/auth';
-
+import userSettingsRoutes from './routes/userSettings';
 dotenv.config();
 
 const app = express();
@@ -16,6 +16,7 @@ app.use(passport.initialize());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/userSettings', userSettingsRoutes);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/devforge')
