@@ -80,6 +80,7 @@ export function AuthProvider({ children, navigate }: AuthProviderProps) {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUser(response.data);
+      console.log('fetchUser', response.data);
     } catch (error) {
       // If we get a network error, switch to demo mode
       if (error && typeof error === 'object' && 'code' in error && error.code === 'ERR_NETWORK') {
@@ -125,6 +126,8 @@ export function AuthProvider({ children, navigate }: AuthProviderProps) {
       throw error;
     } finally {
       setLoading(false);
+      navigate('/'); // Redirect to dashboard after user login
+
     }
   };
 
@@ -241,6 +244,8 @@ export function AuthProvider({ children, navigate }: AuthProviderProps) {
 }
 
 export function useAuth() {
+  const test = useContext(AuthContext);
+
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
