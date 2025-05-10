@@ -11,6 +11,7 @@ import AdapterPatternPanel from './components/AdapterPatternPanel';
 import AsyncPanel from './components/AsyncPanel';
 import PatternInfoPanel from './components/PatternInfoPanel';
 import PreviewSandbox from './components/PreviewSandbox';
+import SettingsPage from './components/SettingsPage';
 
 const TABS = [
   { label: "Sandbox", component: <PreviewSandbox />, path: "/sandbox" },
@@ -47,6 +48,7 @@ function AppContent() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route element={<ProtectedRoute><AuthenticatedLayout /></ProtectedRoute>}>
           <Route path="/" element={<Navigate to="/sandbox" replace />} />
           {TABS.map((tab) => (

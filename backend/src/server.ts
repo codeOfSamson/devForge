@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import passport from './config/passport';
 import authRoutes from './routes/auth';
 import userSettingsRoutes from './routes/userSettings';
+
 dotenv.config();
 
 const app = express();

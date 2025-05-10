@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import passport from 'passport';
-import Settings from '../models/userSettings';
+import UserSettings from '../models/UserSettings';
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', passport.authenticate('jwt', { session: false }), async (req: Request, res: Response) => {
   try {
     const userId = (req.user as any)._id;
-    const settings = await Settings.findOne({ user: userId });
+    const settings = await UserSettings.findOne({ user: userId });
 
     if (!settings) {
       return res.status(404).json({ message: 'Settings not found' });
@@ -27,7 +27,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), async (req: R
     const userId = (req.user as any)._id;
     const { theme, language, notificationsEnabled } = req.body;
 
-    const settings = await Settings.findOneAndUpdate(
+    const settings = await UserSettings.findOneAndUpdate(
       { user: userId },
       { theme, language, notificationsEnabled },
       { new: true, upsert: true, setDefaultsOnInsert: true }
