@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const API_URL =  'http://localhost:5000'; // adjust for your setup
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 interface Settings {
   name: string;
@@ -33,6 +33,7 @@ export default function SettingsPage() {
         const response = await axios.get<Settings>(`${API_URL}/api/userSettings`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        console.log('in settings', response)
         setForm(response.data);
       } catch (err) {
         console.error('Failed to fetch settings', err);

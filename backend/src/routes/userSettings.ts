@@ -22,7 +22,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req: Re
 });
 
 // Save or update current user's settings
-router.post('/', passport.authenticate('jwt', { session: false }), async (req: Request, res: Response) => {
+router.put('/', passport.authenticate('jwt', { session: false }), async (req: Request, res: Response) => {
   try {
     const userId = (req.user as any)._id;
     const { theme, language, notificationsEnabled } = req.body;
