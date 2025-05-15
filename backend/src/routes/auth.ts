@@ -3,6 +3,7 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import User from '../models/User';
+import UserSettings from '../models/UserSettings';
 
 const router = express.Router();
 
@@ -53,6 +54,15 @@ router.post('/register', async (req: Request, res: Response) => {
     // Save user (this will trigger the password hashing)
     await user.save();
 
+    console.log('user', user)
+
+    await UserSettings.create({
+      user: user._id,
+      theme: 'light',
+      language: 'en',
+      notificationsEnabled: true,
+    });
+    
     // Generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
     

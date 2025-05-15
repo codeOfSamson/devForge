@@ -148,6 +148,8 @@ export function AuthProvider({ children, navigate }: AuthProviderProps) {
       localStorage.setItem('token', token);
       setToken(token);
       setUser(user);
+      navigate('/'); // Redirect to dashboard after user login
+
     } catch (error) {
       if (error && typeof error === 'object' && 'code' in error && error.code === 'ERR_NETWORK') {
         setDemoMode(true);
